@@ -1,0 +1,9 @@
+{
+    "test_accuracy": 0.9019073843955994,
+    "test_macro_f1": 0.9009019136428833,
+    "train_accuracy": 0.9155313372612,
+    "train_macro_f1": 0.9143891930580139,
+    "model_architecture": "Custom CNN 32-64-128-256 Conv Blocks",
+    "input_size": "128x128",
+    "date": "2025-02-08"
+}
