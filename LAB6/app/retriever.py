@@ -12,7 +12,7 @@ class Retriever:
         self,
         index_path="data/processed_data/faiss.index",
         chunks_path="data/chunks/chunks.jsonl",
-        model_name="sentence-transformers/all-MiniLM-L6-v2",
+        model_name="models/minilm-finetuned",
         device="cuda",
     ):
         # Load FAISS index

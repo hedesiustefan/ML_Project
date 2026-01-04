@@ -25,13 +25,16 @@ class Generator:
 
     def generate(self, prompt: str, max_new_tokens=300):
         inputs = self.tokenizer(prompt, return_tensors="pt").to("cuda")
-        outputs = self.model.generate(
+        print("▶ Generating answer...", flush=True)
+
+        output = self.model.generate(
             **inputs,
-            max_new_tokens=max_new_tokens,
-            temperature=0.3,
-            do_sample=True,
-            pad_token_id=self.tokenizer.eos_token_id,
+            max_new_tokens=80,
+            do_sample=False,
         )
-        return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+        print("✔ Answer generated", flush=True)
+
+        return self.tokenizer.decode(output[0], skip_special_tokens=True)
 
     

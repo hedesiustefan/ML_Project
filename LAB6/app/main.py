@@ -1,36 +1,32 @@
-from app.retriever import Retriever
-from app.generator import Generator
+import os
+os.environ["TRANSFORMERS_NO_TORCHVISION"] = "1"
 
-retriever = Retriever()
-generator = Generator()
+from fastapi import FastAPI
+from pydantic import BaseModel
+from app.rag_service import answer_question
 
 
-def build_rag_prompt(question: str, retrieved_chunks: list[str]) -> str:
-    context = "\n\n".join(
-        f"[{i+1}] {chunk['text']}"
-        for i, chunk in enumerate(retrieved_chunks)
+
+app = FastAPI()
+
+
+class ChatRequest(BaseModel):
+    user_prompt: str
+
+
+class ChatResponse(BaseModel):
+    chat_response: str
+    verdict: str | None = None
+
+
+@app.post("/chat", response_model=ChatResponse)
+def chat(req: ChatRequest):
+    result = answer_question(req.user_prompt)
+
+    if "error" in result:
+        return ChatResponse(chat_response=result["error"])
+
+    return ChatResponse(
+        chat_response=result["answer"],
+        verdict=result["verdict"],
     )
-
-    return (
-        "You are a helpful assistant.\n"
-        "Answer the question using ONLY the information in the context below.\n"
-        "If the answer is not contained in the context, say:\n"
-        "'I don't know based on the provided documents.'\n\n"
-        f"Context:\n{context}\n\n"
-        f"Question:\n{question}\n\n"
-        "Answer:\n"
-    )
-
-
-
-def answer_question(question: str):
-    retrieved = retriever.retrieve(question, top_k=5)
-    prompt = build_rag_prompt(question, retrieved)
-    answer = generator.generate(prompt)
-    return answer, retrieved
-
-def main():
-    answer, chunks = answer_question("What is a cost function?")
-
-if __name__ == "__main__":
-    main()
