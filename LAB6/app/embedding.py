@@ -12,7 +12,7 @@ def create_embeddings(
     chunks_path="data/chunks/chunks.jsonl",
     index_path="data/processed_data/faiss.index",
     metadata_path="data/chunks/chunks_meta.json",
-    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    model_name="models/minilm-finetuned",
 ):
     chunks_path = Path(chunks_path)
     index_path = Path(index_path)
