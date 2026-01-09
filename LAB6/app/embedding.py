@@ -47,12 +47,12 @@ def create_embeddings(
 
     log.info(f"[embedding] embeddings shape: {embeddings.shape}")
 
-    # build FAISS index (cosine similarity via inner product)
+    # build FAISS index
     dim = embeddings.shape[1]
     index = faiss.IndexFlatIP(dim)
     index.add(embeddings.astype(np.float32))
 
-    # Save index + metadata
+    # save index + metadata
     faiss.write_index(index, str(index_path))
     metadata_path.write_text(json.dumps(metadata, ensure_ascii=False), encoding="utf-8")
 

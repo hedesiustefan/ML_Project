@@ -18,12 +18,12 @@ class Generator:
             quantization_config=quant_config,
             device_map="auto",
             max_memory={
-                0: "6GiB",      # GPU (adjust if you know your VRAM)
-                "cpu": "16GiB", # CPU RAM
+                0: "6GiB",      
+                "cpu": "16GiB", 
             },
         )
 
-    def generate(self, prompt: str, max_new_tokens=300):
+    def generate(self, prompt: str):
         inputs = self.tokenizer(prompt, return_tensors="pt").to("cuda")
         print("▶ Generating answer...", flush=True)
 
@@ -33,7 +33,7 @@ class Generator:
             do_sample=False,
         )
 
-        print("✔ Answer generated", flush=True)
+        print("Answer generated", flush=True)
 
         return self.tokenizer.decode(output[0], skip_special_tokens=True)
 

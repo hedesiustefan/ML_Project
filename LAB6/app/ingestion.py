@@ -6,7 +6,7 @@ from app.logger import logger
 log = logger()
 
 def clean_text(text: str) -> str:
-    # Remove invalid UTF-16 surrogate characters
+    # to remove invalid characters
     return text.encode("utf-8", errors="ignore").decode("utf-8")
 
 

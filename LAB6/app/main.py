@@ -26,6 +26,10 @@ def chat(req: ChatRequest):
     if "error" in result:
         return ChatResponse(chat_response=result["error"])
 
+    with open('model_output.txt', 'w') as f:
+        f.write(f'Answer: {result["answer"]}')
+        f.write(f'Judge Verdict: {result["verdict"]}')
+
     return ChatResponse(
         chat_response=result["answer"],
         verdict=result["verdict"],

@@ -50,7 +50,7 @@ class LLMJudge:
         response.raise_for_status()
         data = response.json()
 
-        # Extract model text
+        # extract model text
         content = data["choices"][0]["message"]["content"]
 
         return content

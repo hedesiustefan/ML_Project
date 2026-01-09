@@ -26,7 +26,7 @@ def finetune_minilm(
     texts = load_chunks(chunks_path)
     log.info(f"[finetune] loaded {len(texts)} chunks")
 
-    # Create positive pairs (chunk, chunk)
+    # create positive pairs (chunk, chunk)
     train_examples = [
         InputExample(texts=[text, text])
         for text in texts
